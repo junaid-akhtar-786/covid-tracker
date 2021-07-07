@@ -1,5 +1,7 @@
 const INITIAL_STATE = {
-    name:"bilal"
+    name:"bilal",
+    main:[],
+    countries:[]
 }
 
 const Reducer = (state = INITIAL_STATE)=>{

@@ -8,7 +8,6 @@ function Home() {
   const [getName, setGetName] = useState()
   const [country, setCountry] = useState();
   const [getData, setgetData] = useState(false);
-  const [tab , setTab] = useState(false)
   let state = useSelector(state => state);
   useEffect(() => {
     axios.get('https://api.covidtracking.com/v1/states/current.json')
@@ -32,17 +31,22 @@ function Home() {
 
   state.main = date;
   state.countries = cities;
-  let getInd = (i) => { 
+  let getInd = (i) => {
+    setCountry(i)
     setgetData(true)
-    setGetName(state?.countries[i].name)
-    let a = state?.countries[i].alpha2Code;
-    let b = state?.main.length;
-    for (let i = 0; i < b; i++) {
-      if (a === state?.main[i].state) {
-        let b = i;
-        console.log(i);
-        setCountry(i)
+    let a = state.main[i].state;
+    let b = false
+    console.log(a)
+    for (let i = 0; i < state.countries.length; i++) {
+      if (a == state.countries[i].alpha2Code) {
+        b = true
       }
+      
+    }if (b){
+      setGetName(state.countries[i].name)
+
+    }else{
+      setGetName(a)
     }
   }
 
@@ -52,10 +56,10 @@ function Home() {
       <div className="d-flex">
         <div className=' continer w-25 '>
 
-          {state?.countries?.map((e, i) => {
+          {state?.main?.map((e, i) => {
             return (
               <div key={i} className='m-2'>
-                <button className="btn btn-info rounded shadow" onClick={() => getInd(i)}>STATE ==  {e.name}</button>
+                <button className="btn btn-info rounded shadow" onClick={() => getInd(i)}>STATE ==  {e.state}</button>
               </div>
             )
           })
